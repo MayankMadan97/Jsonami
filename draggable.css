@@ -1,0 +1,26 @@
+[draggable=true] {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+ul.moveable {
+    list-style: none;
+    margin: 0px;
+}
+
+ul.moveable li {
+    list-style-image: none;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    border-radius: 4px;
+    color: #666;
+    cursor: move;
+}
+
+ul.moveable li:hover {
+    background-color: #eee;
+}
+
