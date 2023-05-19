@@ -18,40 +18,59 @@ let editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
 });
 editor.setSize("100%", "85vh");
 editor.on('change', function (cm, changeObj) {
-    var jsonObject = JSON.parse(cm.getValue());
-    var uniqueKeys = extractUniqueKeysWithIndentation(jsonObject);
-    let htmlToInsert = '';
-    for (let i = 0; i < uniqueKeys.length; i++) {
-        htmlToInsert += `<li class="d-flex"><input type="checkbox" class="mx-2" /><pre class="my-auto">${uniqueKeys[i]}</pre></li>`
+    if (isJsonString(cm.getValue())) {
+        let jsonObject = JSON.parse(cm.getValue());
+        let uniqueKeys = extractUniqueKeysWithIndentation(jsonObject);
+        let htmlToInsert = '';
+        for (let i in uniqueKeys) {
+            htmlToInsert += `<li class="d-flex" id="list-item"><pre class="my-auto">${uniqueKeys[i]}</pre></li>`
+        }
+        const select = document.querySelector('#items-list')
+        select.innerHTML = '';
+        select.insertAdjacentHTML('beforeend', htmlToInsert)
     }
-    const select = document.querySelector('#items-list')
-    select.insertAdjacentHTML('beforeend', htmlToInsert)
-    initiateDragList();
+});
+
+editor.on('beforeChange', function (cm, change) {
+    var jsonString = editor.getValue();
+    var selection = editor.getSelection();
+
+    // Check if the whole JSON is selected and deleted
+    if (selection === jsonString && change.origin === '+delete') {
+        const parent = document.getElementById("items-list")
+        while (parent.firstChild) {
+            parent.firstChild.remove()
+        }
+    }
 });
 
 function extractUniqueKeysWithIndentation(json) {
-    var uniqueKeys = {};
-
+    let uniqueKeys = {};
     function traverse(obj, indent) {
-        for (var key in obj) {
+        for (let key in obj) {
             if (Array.isArray(obj)) {
                 // Skip the keys for array elements
                 traverse(obj[key], indent);
             } else {
-                var formattedKey = indent + key;
-
+                let formattedKey = indent + key;
                 if (!uniqueKeys.hasOwnProperty(formattedKey)) {
                     uniqueKeys[formattedKey] = true;
                 }
-
                 if (typeof obj[key] === 'object' && obj[key] !== null) {
                     traverse(obj[key], indent + '  ');
                 }
             }
         }
     }
-
     traverse(json, '');
-
     return Object.keys(uniqueKeys);
+}
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
