@@ -37,6 +37,10 @@
         max-height: 85vh;
         overflow-y: scroll;
     }
+
+    .primary-color {
+        color: #253238;
+    }
 </style>
 
 <body>
@@ -46,8 +50,14 @@
                 <textarea id="editor"></textarea>
             </div>
             <div class="col-6 playground">
-                <ul id="items-list">
-                </ul>
+                <div class="key-organizer row d-none">
+                    <ul id="items-list">
+                    </ul>
+                </div>
+                <div class="row no-json-scenario d-flex justify-content-center align-content-center h-100">
+                    <div class="primary-color h1">Jsonami</div>
+                    <div class="h5">Riding the Waves of JSON Data</div>
+                </div>
             </div>
         </div>
     </div>
