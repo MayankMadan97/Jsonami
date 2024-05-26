@@ -24,22 +24,53 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.9/lottie.min.js"></script>
     <title>Jsonami</title>
 </head>
 <style>
     html,
     body {
-        background-color: #455A64;
+        background-color: #F7F7F7;
     }
 
     .playground {
-        background-color: #D1DBE1;
+        background-color: #6D9886;
         max-height: 85vh;
         overflow-y: scroll;
     }
 
-    .primary-color {
-        color: #253238;
+    .header {
+        font-size: 4em;
+    }
+
+    .CodeMirror {
+        background-color: #393E46 !important;
+        padding-right: 1em;
+    }
+
+    .result {
+        flex-direction: column;
+        align-items: center;
+        color: white;
+    }
+
+    #json-status {
+        height: 2em;
+        width: 10em;
+        position: absolute;
+        bottom: 1em;
+        left: 35%;
+        border-radius: 2em;
+        z-index: 1;
+        color: white;
+
+        &.invalid {
+            background-color: red;
+        }
+
+        &.valid {
+            background-color: #6D9886;
+        }
     }
 </style>
 
@@ -47,6 +78,7 @@
     <div class="contriner-fluid" style="height:85vh">
         <div class="row h-100 m-5">
             <div class="col-6 h-100 p-0">
+                <div id="json-status" class="align-items-center d-flex justify-content-center"></div>
                 <textarea id="editor"></textarea>
             </div>
             <div class="col-6 playground">
@@ -54,14 +86,27 @@
                     <ul id="items-list">
                     </ul>
                 </div>
-                <div class="row no-json-scenario d-flex justify-content-center align-content-center h-100">
-                    <div class="primary-color h1">Jsonami</div>
-                    <div class="h5">Riding the Waves of JSON Data</div>
+                <div class="row no-json-scenario d-flex justify-content-center align-content-center h-100 result">
+                    <div id="coder-animation"></div>
+                    <div class="header primary-color font-weight-normal">Jsonami</div>
+                    <div class="h5 secondary-color font-monospace">Riding the Waves of JSON Data</div>
+                    <div class="h5">Paste your JSON on the left to continue</div>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script src="codemirror.js"></script>
+<script>
+    var animationContainer = document.getElementById('coder-animation');
+    var animation = bodymovin.loadAnimation({
+        container: animationContainer, // Container to render the animation
+        renderer: 'svg', // Set the renderer, you can use 'canvas' as well
+        loop: true, // Set to true if you want the animation to loop
+        autoplay: true, // Set to true if you want the animation to start automatically
+        path: 'coder-animation.json' // Path to your Lottie JSON file
+    });
+    animationContainer.style.width = "20vw";
+</script>
 
 </html>
