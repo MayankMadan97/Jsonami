@@ -18,7 +18,15 @@ let editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
 });
 editor.setSize("100%", "85vh");
 editor.on('change', function (cm, changeObj) {
-    if (isJsonString(cm.getValue())) {
+    let jsonStatusPopup = document.getElementById("json-status");
+    jsonStatusPopup.style.opacity = 1;
+    if (cm.getValue() === "") {
+        jsonStatusPopup.innerText = "Empty JSON";
+    }
+    else if (isJsonString(cm.getValue())) {
+        jsonStatusPopup.innerText = "Valid JSON";
+        jsonStatusPopup.classList.remove("invalid");
+        jsonStatusPopup.classList.add("valid");
         let jsonObject = JSON.parse(cm.getValue());
         let uniqueKeys = extractUniqueKeysWithIndentation(jsonObject);
         let htmlToInsert = '';
@@ -28,7 +36,15 @@ editor.on('change', function (cm, changeObj) {
         const select = document.querySelector('#items-list')
         select.innerHTML = '';
         select.insertAdjacentHTML('beforeend', htmlToInsert)
+    } else {
+        jsonStatusPopup.innerText = "Invalid JSON";
+        jsonStatusPopup.classList.remove("valid");
+        jsonStatusPopup.classList.add("invalid");
     }
+    setTimeout(() => {
+        jsonStatusPopup.style.transition = "opacity 0.5s ease";
+        jsonStatusPopup.style.opacity = 0;
+    }, 1000);
 });
 
 editor.on('beforeChange', function (cm, change) {
