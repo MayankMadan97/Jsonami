@@ -27,6 +27,7 @@ editor.on('change', function (cm, changeObj) {
         jsonStatusPopup.innerText = "Valid JSON";
         jsonStatusPopup.classList.remove("invalid");
         jsonStatusPopup.classList.add("valid");
+        document.getElementById("branding").remove();
         let jsonObject = JSON.parse(cm.getValue());
         let uniqueKeys = extractUniqueKeysWithIndentation(jsonObject);
         let htmlToInsert = '';

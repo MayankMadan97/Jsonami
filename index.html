@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.9/lottie.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <title>Jsonami</title>
 </head>
 <style>
@@ -72,22 +72,76 @@
             background-color: #6D9886;
         }
     }
+
+    ul {
+        list-style-type: none;
+        /* Remove default bullet points */
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 8px 15px;
+        /* Padding for list items */
+        margin: 2px 0;
+        /* Spacing between items */
+        color: #555;
+        /* Text color */
+        font-size: 16px;
+        /* Font size */
+        position: relative;
+        cursor: move;
+        /* Pointer cursor for draggable items */
+        transition: background-color 0.3s;
+        /* Smooth transition for hover effect */
+    }
+
+    li:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        /* Subtle hover effect */
+    }
+
+    .editable {
+        display: none;
+        /* Initially hide the input field */
+        width: calc(100% - 30px);
+        /* Full width for input minus padding */
+        font-size: 16px;
+        /* Consistent font size */
+        border: none;
+        /* No border */
+        padding: 5px;
+        /* Padding for input */
+        outline: none;
+        /* No outline */
+        margin-left: 10px;
+        /* Indentation for input */
+        color: #333;
+        /* Text color */
+        background-color: transparent;
+        /* No background */
+    }
+
+    /* Additional styling for better readability */
+    h1 {
+        margin-bottom: 20px;
+        /* Spacing below the heading */
+    }
 </style>
 
 <body>
-    <div class="contriner-fluid" style="height:85vh">
+    <div class="containor-fluid" style="height:85vh">
         <div class="row h-100 m-5">
             <div class="col-6 h-100 p-0">
                 <div id="json-status" class="align-items-center d-flex justify-content-center"></div>
                 <textarea id="editor"></textarea>
             </div>
             <div class="col-6 playground">
-                <div class="key-organizer row d-none">
-                    <ul id="items-list">
-                    </ul>
+                <div class="key-organizer row">
+                    <ul id="itemList"></ul>
                 </div>
-                <div class="row no-json-scenario d-flex justify-content-center align-content-center h-100 result">
-                    <div id="coder-animation"></div>
+                <div id="branding"
+                    class=" d-none row no-json-scenario d-flex justify-content-center align-content-center h-100 result">
                     <div class="header primary-color font-weight-normal">Jsonami</div>
                     <div class="h5 secondary-color font-monospace">Riding the Waves of JSON Data</div>
                     <div class="h5">Paste your JSON on the left to continue</div>
@@ -97,16 +151,6 @@
     </div>
 </body>
 <script src="codemirror.js"></script>
-<script>
-    var animationContainer = document.getElementById('coder-animation');
-    var animation = bodymovin.loadAnimation({
-        container: animationContainer, // Container to render the animation
-        renderer: 'svg', // Set the renderer, you can use 'canvas' as well
-        loop: true, // Set to true if you want the animation to loop
-        autoplay: true, // Set to true if you want the animation to start automatically
-        path: 'coder-animation.json' // Path to your Lottie JSON file
-    });
-    animationContainer.style.width = "20vw";
-</script>
+<script src="tree.js"></script>
 
 </html>
